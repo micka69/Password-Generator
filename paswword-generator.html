@@ -237,7 +237,7 @@
 </head>
 <body>
     <div class="container">
-        <h1>Password Generator</h1>
+        <h1>Password Pro</h1>
         <div class="password-display">
             <input type="text" id="password" readonly placeholder="Votre mot de passe sécurisé">
             <button class="copy-btn" id="copy-btn" title="Copier le mot de passe">📋</button>
@@ -245,7 +245,7 @@
         <div class="slider-container">
             <div class="slider-label">
                 <span>Longueur</span>
-                <span id="length-value">8</span>
+                <span id="length-value">4</span>
             </div>
             <input type="range" id="length-slider" min="8" max="64" value="8">
         </div>
@@ -340,6 +340,17 @@
             return Math.min(100, strength);
         }
 
+        function resetAllFields() {
+            password.value = '';
+            lengthSlider.value = 8;
+            lengthValue.textContent = '8';
+            lowercaseCheck.checked = true;
+            uppercaseCheck.checked = true;
+            numbersCheck.checked = true;
+            symbolsCheck.checked = true;
+            updateStrengthMeter('');
+        }
+
         generateBtn.addEventListener('click', function() {
             const newPassword = generatePassword();
             password.value = newPassword;
@@ -362,8 +373,13 @@
             }, 2000);
         });
 
-        // Initialisation
-        updateStrengthMeter('');
+        // Réinitialisation au chargement de la page
+        window.addEventListener('load', resetAllFields);
+
+        // Empêcher la conservation des données du formulaire lors du rechargement
+        if (window.history.replaceState) {
+            window.history.replaceState(null, null, window.location.href);
+        }
     </script>
 </body>
 </html>
